@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+# Copyright (C) 2018 Layered Insight - All Rights Reserved
+# Unauthorized copying of this file, via any medium is strictly prohibited
+# Proprietary and confidential
+
+from __future__ import print_function
+import argparse
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+from vyper import v
+import vyper
+from li_utils.envtools import *
+
+env_setup()
+
+# Parse CLI
+parser = argparse.ArgumentParser()
+parser.add_argument("-v", "--verbose", help="Verbose logging", action="store_true")
+parser.add_argument("--id", help="ID of registry to delete", required=True)
+args = parser.parse_args()
+
+swagger_client.configuration.api_key['Authorization'] = v.get("api_key")
+
+registry_api = swagger_client.RegistryApi()
+registry_api.api_client.host = v.get("api_host")
+registry = swagger_client.Registry()
+registry.id = args.id
+
+if args.verbose:
+    print("Deleting registry %s from API host %s..." % (args.id, v.get("api_host")))
+try:
+    registry = registry_api.delete_registry(registry)
+except ApiException as e:
+    print("Exception when calling RegistryApi->delete_registry: %s\n" % e)
+    sys.exit();
+
+if args.verbose:
+    print("Registry deleted successfully.")
+
