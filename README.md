@@ -1,3 +1,6 @@
+# Scan client API scripts
+
+This is a collection of python scripts leveraging our Swagger library to interact with the Scan API server.
 
 ## First, install virtualenv and create a virtual environemnt so you don't pollute your whole box.
 * `pip install virtualenv`
