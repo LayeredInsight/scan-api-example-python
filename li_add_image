@@ -5,13 +5,11 @@
 
 from __future__ import print_function
 import argparse
-import time
+import sys
 import swagger_client
 from swagger_client.rest import ApiException
-from pprint import pprint
 from vyper import v
-import vyper
-from li_utils.envtools import *
+from li_utils.envtools import env_setup
 
 env_setup()
 
@@ -34,7 +32,7 @@ try:
     image = images_api.add_image(image_name)
 except ApiException as e:
     print("Exception when calling ImagesApi->add_image: %s\n" % e)
-    sys.exit();
+    sys.exit()
 
 if args.verbose:
     print("Image submitted successfully.")

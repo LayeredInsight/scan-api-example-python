@@ -5,13 +5,11 @@
 
 from __future__ import print_function
 import argparse
-import time
+import sys
 import swagger_client
 from swagger_client.rest import ApiException
-from pprint import pprint
 from vyper import v
-import vyper
-from li_utils.envtools import *
+from li_utils.envtools import env_setup
 
 env_setup()
 
@@ -34,8 +32,7 @@ try:
     registry = registry_api.delete_registry(registry)
 except ApiException as e:
     print("Exception when calling RegistryApi->delete_registry: %s\n" % e)
-    sys.exit();
+    sys.exit()
 
 if args.verbose:
     print("Registry deleted successfully.")
-

@@ -5,13 +5,12 @@
 
 from __future__ import print_function
 import argparse
-import time
+from pprint import pprint
+import sys
 import swagger_client
 from swagger_client.rest import ApiException
-from pprint import pprint
 from vyper import v
-import vyper
-from li_utils.envtools import *
+from li_utils.envtools import env_setup
 
 env_setup()
 
@@ -30,12 +29,11 @@ if args.verbose:
     print("Fetching registriess from API host %s..." % (v.get("api_host")))
 try:
     api_result = registry_api.get_registries()
-    print( "results:" )
+    print("results:")
     pprint(api_result)
 except ApiException as e:
     print("Exception when calling RegistryApi->delete_registry: %s\n" % e)
-    sys.exit();
+    sys.exit()
 
 if args.verbose:
     print("Registry fetched successfully.")
-
