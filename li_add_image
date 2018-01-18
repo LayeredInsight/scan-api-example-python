@@ -34,5 +34,10 @@ except ApiException as e:
     print("Exception when calling ImagesApi->add_image: %s\n" % e)
     sys.exit(1)
 
+# Making sure we print image id on blank line...
+print()
+
 if args.verbose:
-    print("Image submitted successfully.")
+    print("Image %s submitted successfully." % (image.sid))
+else:
+    print(image.sid)
