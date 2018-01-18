@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+# Copyright (C) 2018 Layered Insight - All Rights Reserved
+# Unauthorized copying of this file, via any medium is strictly prohibited
+# Proprietary and confidential
+
+from __future__ import print_function
+import argparse
+from pprint import pprint
+import sys
+import layint_scan_api
+from layint_scan_api.rest import ApiException
+from vyper import v
+from li_utils.envtools import env_setup
+
+env_setup()
+
+# Parse CLI
+parser = argparse.ArgumentParser()
+parser.add_argument("-v", "--verbose", help="Verbose logging", action="store_true")
+args = parser.parse_args()
+
+layint_scan_api.configuration.api_key['Authorization'] = v.get("api_key")
+
+compliance_api = layint_scan_api.ComplianceApi()
+compliance_api.api_client.host = v.get("api_host")
+
+if args.verbose:
+    print("Fetching compliance policies from API host %s..." % (v.get("api_host")))
+try:
+    api_results = compliance_api.get_policies()
+except ApiException as e:
+    print("Exception when calling ComplianceApi->get_policies: %s\n" % e)
+    sys.exit(1)
+
+if args.verbose:
+    print("results:")
+    pprint(api_results)
+
+print(" ID - name")
+for policy in api_results['Policies']:
+    print(" %s - %s" % (policy['Sid'], policy['Name']))
+
+
+if args.verbose:
+    print("Done.")
