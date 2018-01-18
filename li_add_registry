@@ -40,7 +40,7 @@ try:
     registry = registry_api.add_registry(registry)
 except ApiException as e:
     print("Exception when calling RegistryApi->add_registry: %s\n" % e)
-    sys.exit()
+    sys.exit(1)
 
 if args.verbose:
     print("Registry added successfully.")

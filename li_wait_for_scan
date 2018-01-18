@@ -22,7 +22,7 @@ def get_image(imageID):
         api_result = images_api.get_image(imageID)
     except ApiException as e:
         print("Exception when calling ImageApi->get_image: %s\n" % e)
-        sys.exit()
+        sys.exit(1)
 
     if args.verbose:
         pprint(api_result)

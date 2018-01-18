@@ -32,7 +32,7 @@ try:
     image = images_api.add_image(image_name)
 except ApiException as e:
     print("Exception when calling ImagesApi->add_image: %s\n" % e)
-    sys.exit()
+    sys.exit(1)
 
 if args.verbose:
     print("Image submitted successfully.")
