@@ -1,0 +1,58 @@
+#!/usr/bin/env python
+# Copyright (C) 2018 Layered Insight - All Rights Reserved
+# Unauthorized copying of this file, via any medium is strictly prohibited
+# Proprietary and confidential
+
+from __future__ import print_function
+import argparse
+import sys
+from pprint import pprint
+import layint_scan_api
+from layint_scan_api.rest import ApiException
+from vyper import v
+from li_utils.envtools import env_setup
+
+env_setup()
+
+# Parse CLI
+parser = argparse.ArgumentParser()
+parser.add_argument("-v", "--verbose", help="Verbose logging", action="store_true")
+parser.add_argument("--imageid", help="ID of image to run compliance policy on", required=True)
+parser.add_argument("--policyid", help="ID of compliance policy to evaluate", required=True)
+args = parser.parse_args()
+
+layint_scan_api.configuration.api_key['Authorization'] = v.get("api_key")
+
+images_api = layint_scan_api.ImagesApi()
+images_api.api_client.host = v.get("api_host")
+
+if args.verbose:
+    print("Running compliance policy %s on image %s for scan API host %s..." %
+          (args.policyid, args.imageid, v.get("api_host")))
+try:
+    api_results = images_api.get_image_compliance(args.imageid, run=True, policies=args.policyid)
+except ApiException as e:
+    print("Exception when calling ImagesApi->add_image: %s\n" % e)
+    sys.exit(1)
+
+if args.verbose:
+    print("results:")
+    pprint(api_results)
+
+complianceResults = True
+for compliance in api_results['Compliance']:
+    for policies in compliance['Policies']:
+        for rule in policies['Rules']:
+            if rule['Outcome'] == 'FAIL':
+                if args.verbose:
+                    print("Policy rule %s failed." % (rule['Name']))
+                complianceResults = False
+
+if complianceResults:
+    if args.verbose:
+        print("Image passed compliance")
+    sys.exit(0)
+else:
+    if args.verbose:
+        print("Image failed compliance.")
+    sys.exit(1)
