@@ -6,8 +6,8 @@
 from __future__ import print_function
 import argparse
 import sys
-import swagger_client
-from swagger_client.rest import ApiException
+import layint_scan_api
+from layint_scan_api.rest import ApiException
 from vyper import v
 from li_utils.envtools import env_setup
 
@@ -22,11 +22,11 @@ parser.add_argument("--username", help="Username to authenticate to registry wit
 parser.add_argument("--password", help="Password to authenticate to registry with", required=False)
 args = parser.parse_args()
 
-swagger_client.configuration.api_key['Authorization'] = v.get("api_key")
+layint_scan_api.configuration.api_key['Authorization'] = v.get("api_key")
 
-registry_api = swagger_client.RegistryApi()
+registry_api = layint_scan_api.RegistryApi()
 registry_api.api_client.host = v.get("api_host")
-registry = swagger_client.Registry(name=args.name)
+registry = layint_scan_api.Registry(name=args.name)
 registry.type = "docker.io"
 registry.url = args.url
 if args.username:

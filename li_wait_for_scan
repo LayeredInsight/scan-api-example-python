@@ -8,8 +8,8 @@ import argparse
 from pprint import pprint
 import sys
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import layint_scan_api
+from layint_scan_api.rest import ApiException
 from vyper import v
 from li_utils.envtools import env_setup
 
@@ -37,9 +37,9 @@ parser.add_argument("-v", "--verbose", help="Verbose logging", action="store_tru
 parser.add_argument("--id", help="ID of image to wait for scan to complete", required=True)
 args = parser.parse_args()
 
-swagger_client.configuration.api_key['Authorization'] = v.get("api_key")
+layint_scan_api.configuration.api_key['Authorization'] = v.get("api_key")
 
-images_api = swagger_client.ImagesApi()
+images_api = layint_scan_api.ImagesApi()
 images_api.api_client.host = v.get("api_host")
 
 image = get_image(args.id)

@@ -6,8 +6,8 @@
 from __future__ import print_function
 import argparse
 import sys
-import swagger_client
-from swagger_client.rest import ApiException
+import layint_scan_api
+from layint_scan_api.rest import ApiException
 from vyper import v
 from li_utils.envtools import env_setup
 
@@ -19,11 +19,11 @@ parser.add_argument("-v", "--verbose", help="Verbose logging", action="store_tru
 parser.add_argument("--id", help="ID of registry to delete", required=True)
 args = parser.parse_args()
 
-swagger_client.configuration.api_key['Authorization'] = v.get("api_key")
+layint_scan_api.configuration.api_key['Authorization'] = v.get("api_key")
 
-registry_api = swagger_client.RegistryApi()
+registry_api = layint_scan_api.RegistryApi()
 registry_api.api_client.host = v.get("api_host")
-registry = swagger_client.Registry()
+registry = layint_scan_api.Registry()
 registry.id = args.id
 
 if args.verbose:
