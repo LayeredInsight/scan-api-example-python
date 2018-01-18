@@ -32,7 +32,7 @@ try:
     print("results:")
     pprint(api_result)
 except ApiException as e:
-    print("Exception when calling RegistryApi->delete_registry: %s\n" % e)
+    print("Exception when calling RegistryApi->get_registries: %s\n" % e)
     sys.exit()
 
 if args.verbose:
