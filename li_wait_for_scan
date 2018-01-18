@@ -34,7 +34,7 @@ env_setup()
 # Parse CLI
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", help="Verbose logging", action="store_true")
-parser.add_argument("--id", help="ID of image to wait for scan to complete", required=True)
+parser.add_argument("--imageid", help="ID of image to wait for scan to complete", required=True)
 args = parser.parse_args()
 
 layint_scan_api.configuration.api_key['Authorization'] = v.get("api_key")
@@ -42,13 +42,13 @@ layint_scan_api.configuration.api_key['Authorization'] = v.get("api_key")
 images_api = layint_scan_api.ImagesApi()
 images_api.api_client.host = v.get("api_host")
 
-image = get_image(args.id)
+image = get_image(args.imageid)
 i = 0
 while image.status != "done" and i < 30:
     if args.verbose:
         print("Waiting 5 seconds before checking again...")
     time.sleep(5)
-    image = get_image(args.id)
+    image = get_image(args.imageid)
     i = i + 1
 
 if i == 30:
