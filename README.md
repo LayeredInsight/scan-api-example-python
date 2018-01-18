@@ -36,3 +36,6 @@ export LI_API_HOST=http://localhost/V0.0.1
 ```
 li_add_registry --name test2 --url=http://10.0.2.15:4000 --type dtr --verbose
 ```
+
+## Scripting
+Where possible, we try to set exit codes in these scripts so they can be used in larger automation processes (such as CI builds). If a script is successful, it sets an exit code of **0**. For scripts that have an issue or failure, exit code is set to **1**.
