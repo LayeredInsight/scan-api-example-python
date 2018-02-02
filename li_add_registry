@@ -11,8 +11,6 @@ from layint_scan_api.rest import ApiException
 from vyper import v
 from li_utils.envtools import env_setup
 
-env_setup()
-
 # Parse CLI
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", help="Verbose logging", action="store_true")
@@ -21,6 +19,8 @@ parser.add_argument("--url", help="URL of registry to add", required=True)
 parser.add_argument("--username", help="Username to authenticate to registry with", required=False)
 parser.add_argument("--password", help="Password to authenticate to registry with", required=False)
 args = parser.parse_args()
+
+env_setup()
 
 layint_scan_api.configuration.api_key['Authorization'] = v.get("api_key")
 

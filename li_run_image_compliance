@@ -12,14 +12,14 @@ from layint_scan_api.rest import ApiException
 from vyper import v
 from li_utils.envtools import env_setup
 
-env_setup()
-
 # Parse CLI
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", help="Verbose logging", action="store_true")
 parser.add_argument("--imageid", help="ID of image to run compliance policy on", required=True)
 parser.add_argument("--policyid", help="ID of compliance policy to evaluate", required=True)
 args = parser.parse_args()
+
+env_setup()
 
 layint_scan_api.configuration.api_key['Authorization'] = v.get("api_key")
 

@@ -13,7 +13,6 @@ from layint_scan_api.rest import ApiException
 from vyper import v
 from li_utils.envtools import env_setup
 
-
 # get_image() does work to get image via API
 def get_image(imageID):
     if args.verbose:
@@ -29,13 +28,13 @@ def get_image(imageID):
 
     return api_result
 
-env_setup()
-
 # Parse CLI
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", help="Verbose logging", action="store_true")
 parser.add_argument("--imageid", help="ID of image to wait for scan to complete", required=True)
 args = parser.parse_args()
+
+env_setup()
 
 layint_scan_api.configuration.api_key['Authorization'] = v.get("api_key")
 
