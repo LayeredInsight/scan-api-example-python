@@ -15,6 +15,7 @@ from li_utils.envtools import env_setup
 # Parse CLI
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", help="Verbose logging", action="store_true")
+parser.add_argument("-n", "--numrecords", help="Maximum number of records to display")
 args = parser.parse_args()
 
 env_setup()
@@ -24,10 +25,14 @@ layint_scan_api.configuration.api_key['Authorization'] = v.get("api_key")
 image_api = layint_scan_api.ImagesApi()
 image_api.api_client.host = v.get("api_host")
 
+max_records = 50
+if args.numrecords:
+    max_records = args.numrecords
+
 if args.verbose:
     print("Fetching registriess from API host %s..." % (v.get("api_host")))
 try:
-    api_result = image_api.get_images()
+    api_result = image_api.get_images(page_size=max_records)
 except ApiException as e:
     print("Exception when calling ImageApi->get_images: %s\n" % e)
     sys.exit(1)
