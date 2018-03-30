@@ -23,13 +23,11 @@ layint_scan_api.configuration.api_key['Authorization'] = v.get("api_key")
 
 registry_api = layint_scan_api.RegistryApi()
 registry_api.api_client.host = v.get("api_host")
-registry = layint_scan_api.Registry()
-registry.id = args.id
 
 if args.verbose:
     print("Deleting registry %s from API host %s..." % (args.id, v.get("api_host")))
 try:
-    registry = registry_api.delete_registry(registry)
+    registry_api.delete_registry(args.id)
 except ApiException as e:
     print("Exception when calling RegistryApi->delete_registry: %s\n" % e)
     sys.exit(1)
