@@ -43,7 +43,7 @@ images_api.api_client.host = v.get("api_host")
 
 image = get_image(args.imageid)
 i = 0
-while image.status != "done" and and image.status != "failed" and i < 30:
+while image.status != "done" and image.status != "failed" and i < 30:
     if args.verbose:
         print("Waiting 5 seconds before checking again...")
     time.sleep(5)
