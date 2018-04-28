@@ -1,3 +1,5 @@
+[![Docker Pulls](https://img.shields.io/docker/pulls/layeredinsight/scan-python-client.svg?style=plastic)](https://hub.docker.com/r/layeredinsight/scan-python-client/)
+
 # Scan client API scripts
 
 This is a collection of python scripts leveraging our Swagger library
