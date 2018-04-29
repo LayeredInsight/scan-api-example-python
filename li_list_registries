@@ -28,11 +28,17 @@ if args.verbose:
     print("Fetching registriess from API host %s..." % (v.get("api_host")))
 try:
     api_result = registry_api.get_registries()
-    print("results:")
-    pprint(api_result)
 except ApiException as e:
     print("Exception when calling RegistryApi->get_registries: %s\n" % e)
     sys.exit(1)
+
+if args.verbose:
+    print("raw results:")
+    pprint(api_result)
+
+print(" ID - Name - URL")
+for registry in api_result:
+    print(" %s - %s - %s" % (registry['id'], registry['name'], registry['URL']))
 
 if args.verbose:
     print("Registry fetched successfully.")
