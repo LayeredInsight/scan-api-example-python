@@ -20,6 +20,8 @@ parser.add_argument("--url", help="URL of registry to add", required=True)
 parser.add_argument("--type", help="Type of registry to add. docker.io is default", required=True, choices=["dtr", "docker.io", "ecr", "private"], default="docker.io")
 parser.add_argument("--username", help="Username to authenticate to registry with", required=False)
 parser.add_argument("--password", help="Password to authenticate to registry with", required=False)
+parser.add_argument("--no-tls-verify", help="Disables server certificate verification", action='store_true', default=None)
+parser.add_argument("--insecure-registry", help="Allows HTTP protocol requests when set", action='store_true', default=None)
 parser.add_argument("--prompt-password", help="Prompt for Password to authenticate private registry", action='store_true', default=None)
 args = parser.parse_args()
 
@@ -32,6 +34,8 @@ registry_api.api_client.host = v.get("api_host")
 registry = layint_scan_api.Registry(name=args.name)
 registry.type = args.type
 registry.url = args.url
+registry.tls_verify = True
+registry.insecure_registry = False
 
 if registry.url.startswith("http://") or registry.url.startswith("https://"):
     print("ERROR: URL should not start with http:// or https://")
@@ -39,6 +43,12 @@ if registry.url.startswith("http://") or registry.url.startswith("https://"):
 
 if args.username:
     registry.username = args.username
+
+if args.no_tls_verify is not None:
+    registry.tls_verify = False
+
+if args.insecure_registry is not None:
+    registry.insecure_registry = True
 
 if args.prompt_password is not None:
     registry.password = getpass()
