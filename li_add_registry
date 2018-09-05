@@ -35,6 +35,7 @@ registry = layint_scan_api.Registry(name=args.name)
 registry.type = args.type
 registry.url = args.url
 registry.tls_verify = True
+registry.insecure_registry = False
 
 if registry.url.startswith("http://") or registry.url.startswith("https://"):
     print("ERROR: URL should not start with http:// or https://")
@@ -47,7 +48,7 @@ if args.no_tls_verify is not None:
     registry.tls_verify = False
 
 if args.insecure_registry is not None:
-    registry.insecure_registry = args.insecure_registry
+    registry.insecure_registry = True
 
 if args.prompt_password is not None:
     registry.password = getpass()
