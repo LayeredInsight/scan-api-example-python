@@ -1,1 +1,2 @@
-vyper
+vyper-config >= 0.2.1
+layint-scan-api >= 0.9.6
