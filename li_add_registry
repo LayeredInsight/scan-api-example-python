@@ -20,6 +20,7 @@ parser.add_argument("--url", help="URL of registry to add", required=True)
 parser.add_argument("--type", help="Type of registry to add. docker.io is default", required=True, choices=["dtr", "docker.io", "ecr", "private"], default="docker.io")
 parser.add_argument("--username", help="Username to authenticate to registry with", required=False)
 parser.add_argument("--password", help="Password to authenticate to registry with", required=False)
+parser.add_argument("--certificate", help="Base64 encoded registry certificate", default="")
 parser.add_argument("--no-tls-verify", help="Disables server certificate verification", action='store_true', default=None)
 parser.add_argument("--insecure-registry", help="Allows HTTP protocol requests when set", action='store_true', default=None)
 parser.add_argument("--prompt-password", help="Prompt for Password to authenticate private registry", action='store_true', default=None)
@@ -34,6 +35,7 @@ registry_api.api_client.host = v.get("api_host")
 registry = layint_scan_api.Registry(name=args.name)
 registry.type = args.type
 registry.url = args.url
+registry.certificate = args.certificate
 registry.tls_verify = True
 registry.insecure_registry = False
 
