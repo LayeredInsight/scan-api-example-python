@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+# Copyright (C) 2018 Layered Insight - All Rights Reserved
+# Unauthorized copying of this file, via any medium is strictly prohibited
+# Proprietary and confidential
+
+from __future__ import print_function
+import argparse
+import sys
+import layint_scan_api
+from layint_scan_api.rest import ApiException
+from vyper import v
+from li_utils.envtools import env_setup
+
+# Parse CLI
+parser = argparse.ArgumentParser()
+parser.add_argument("-v", "--verbose", help="Verbose logging", action="store_true")
+parser.add_argument("--id", help="Image id", required=True)
+args = parser.parse_args()
+
+env_setup()
+
+layint_scan_api.configuration.api_key['Authorization'] = v.get("api_key")
+
+images_api = layint_scan_api.ImagesApi()
+images_api.api_client.host = v.get("api_host")
+
+if args.verbose:
+    print("Submitting image %s to delete on  scan API host %s..." % (args.name, v.get("api_host")))
+try:
+    image = images_api.delete_image(args.id)
+except ApiException as e:
+    print("Exception when calling ImagesApi->delete_image: %s\n" % e)
+    sys.exit(1)
+
